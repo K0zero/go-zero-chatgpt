@@ -1,0 +1,2 @@
+{"@timestamp":"2023-05-04T14:44:28.202+08:00","caller":"handler/loghandler.go:137","content":"[HTTP] 503 - POST /user/v1/user/register - 127.0.0.1:54798 - PostmanRuntime/7.32.2 - slowcall(3008.4ms)","duration":"3008.4ms","level":"slow","span":"3d0f28d45de3eb13","trace":"3e64b3fb30db649885a92dca290bcfd8"}
+{"@timestamp":"2023-05-04T14:44:28.202+08:00","caller":"redis/hook.go:151","content":"[REDIS] slowcall on executing: get cache:chatgpt:user:mobile:18369982897","duration":"3007.8ms","level":"slow","span":"a5a5eb6b66f4220a","trace":"3e64b3fb30db649885a92dca290bcfd8"}

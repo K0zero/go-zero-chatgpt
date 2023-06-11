@@ -1,0 +1,107 @@
+syntax = "v1"
+
+info(
+    title: "OPENAI实例"
+    desc: "OPENAI实例"
+    author: "FUBUKI"
+)
+
+type (
+    UserInfoReq {
+        Mobile string `json:"mobile"`
+    }
+    UserInfoResp {
+        Id         int64  `jsopn:"id"`
+        Mobile     string `json:"mobile"`
+        UserName   string `json:"username"`
+        CreateTime string `json:"create_time"`
+    }
+    RegisterReq {
+        Mobile   string `json:"mobile"`
+        UserName string `json:"username"`
+        Password string `json:"password"`
+    }
+    RegisterResp {
+        AccessToken  string `json:"accessToken"`
+        AccessExpire int64  `json:"accessExpire"`
+        RefreshAfter int64  `json:"refreshAfter"`
+    }
+    LoginReq {
+        Mobile   string `json:"mobile"`
+        UserName string `json:"username"`
+        Password string `json:"password"`
+    }
+    LoginResp {
+        AccessToken  string `json:"accessToken"`
+        AccessExpire int64  `json:"accessExpire"`
+        RefreshAfter int64  `json:"refreshAfter"`
+    }
+    InsertAPIReq {
+        API string `json:"api"`
+    }
+
+    InsertAPIResp {
+        Id     int64  `json:"id"`
+        UserId int64  `json:"id"`
+        API    string `json:"api"`
+    }
+
+    DeleteAPIReq {
+        API string `json:"api"`
+    }
+
+    DeleteAPIResp {
+    }
+
+    ChatReq {
+        Question string `json:"question"`
+    }
+
+    ChatResp {
+        Answer string `json:"answer"`
+    }
+)
+
+
+@server(
+    prefix: user/v1
+    group: user
+)
+
+service user {
+    @doc "register"
+    @handler register
+    post /register (RegisterReq) returns (RegisterResp)
+
+    @doc "login"
+    @handler login
+    post /login (LoginReq) returns (LoginResp)
+}
+
+@server(
+    prefix: user/v1
+    group: user
+    jwt: JwtAuth
+)
+service user {
+
+    @doc "get user info"
+    @handler detail
+    post /detail (UserInfoReq) returns (UserInfoResp)
+}
+
+@server(
+    prefix: openai/v1
+    group: openai
+    jwt: JwtAuth
+)
+
+service openai {
+    @doc "insert"
+    @handler insert
+    post /insert (InsertAPIReq) returns (InsertAPIResp)
+
+    @doc "chat"
+    @handler chat
+    post /chat (ChatReq) returns (ChatResp)
+}

@@ -1,0 +1,51 @@
+syntax = "v1"
+
+info(
+	title: "OPENAI实例"
+	desc: "OPENAI实例"
+	author: "FUBUKI"
+)
+// 添加API 删除API 使用API
+
+type (
+	InsertAPIReq {
+		API string `json:"api"`
+	}
+
+	InsertAPIResp {
+		Id     int64  `json:"id"`
+		UserId int64  `json:"id"`
+		API    string `json:"api"`
+	}
+
+	DeleteAPIReq {
+		API string `json:"api"`
+	}
+
+	DeleteAPIResp {
+	}
+
+	ChatReq {
+		Question string `json:"question"`
+	}
+
+	ChatResp {
+		Answer string `json:"answer"`
+	}
+)
+
+@server(
+	prefix: openai/v1
+	group: openai
+	jwt: JwtAuth
+)
+
+service openai {
+	@doc "insert"
+	@handler insert
+	post /insert (InsertAPIReq) returns (InsertAPIResp)
+	
+	@doc "chat"
+	@handler chat
+	post /chat (ChatReq) returns (ChatResp)
+}

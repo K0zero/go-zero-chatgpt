@@ -1,0 +1,66 @@
+syntax = "v1"
+
+info(
+	title: "用户实例"
+	desc: "用户实例"
+	author: "FUBUKI"
+)
+
+type (
+	UserInfoReq {
+		Mobile string `json:"mobile"`
+	}
+	UserInfoResp {
+		Id         int64  `jsopn:"id"`
+		Mobile     string `json:"mobile"`
+		UserName   string `json:"username"`
+		CreateTime string `json:"create_time"`
+	}
+	RegisterReq {
+		Mobile   string `json:"mobile"`
+		UserName string `json:"username"`
+		Password string `json:"password"`
+	}
+	RegisterResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+	LoginReq {
+		Mobile   string `json:"mobile"`
+		UserName string `json:"username"`
+		Password string `json:"password"`
+	}
+	LoginResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+@server(
+	prefix: user/v1
+	group: user
+)
+
+service user {
+	@doc "register"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+	
+	@doc "login"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+}
+
+@server(
+	prefix: user/v1
+	group: user
+	jwt: JwtAuth
+)
+service user {
+	
+	@doc "get user info"
+	@handler detail
+	post /user/detail (UserInfoReq) returns (UserInfoResp)
+}
